@@ -13,14 +13,29 @@ export default function Footer() {
             <div className="flex py-3 items-center justify-center">
                 <div className="flex-1"></div>
                 <div>© 2026 Carson Duffy</div>
-                <div className="flex flex-1 justify-end gap-4">
-                    <a href="https://github.com/cwduffy01" className="text-foreground hover:text-accent">
+                <div className="flex flex-1 justify-end gap-4">             
+                    <a 
+                        href="https://github.com/cwduffy01"
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-foreground transition-all duration-200 hover:text-accent hover:scale-110"
+                    >
                         <SiGithub className="size-8" />
-                    </a>
-                    <a href="https://www.linkedin.com/in/carsonduffy/" className="text-foreground hover:text-accent">
+                    </a>                 
+                    <a 
+                        href="https://www.linkedin.com/in/carsonduffy/"
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-foreground transition-all duration-200 hover:text-accent hover:scale-110"
+                    >
                         <BsLinkedin className="size-8" />
                     </a>
-                    <a href="https://www.instagram.com/carbs.py/" className="text-foreground hover:text-accent">
+                    <a 
+                        href="https://www.instagram.com/carbs.py/" 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="text-foreground transition-all duration-200 hover:text-accent hover:scale-110"
+                    >
                         <SiInstagram className="size-8" />
                     </a>
                 </div>
