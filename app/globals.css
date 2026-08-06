@@ -9,7 +9,7 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #3a2d54;
+    --background: #271d3a;
     --foreground: #f6f4f4;
     --surface:    #5a4678;
     --accent:     #df7197;
@@ -31,4 +31,11 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-jetbrains-mono), system-ui, sans-serif;
+  font-size: 0.875rem; /* mobile default */
+}
+
+@media (min-width: 768px) {
+  body {
+    font-size: 1rem; /* md and up — matches Tailwind's md */
+  }
 }

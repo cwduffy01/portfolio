@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function ConstructionMessage() {
     return (
-      <main className="flex flex-1 flex-col items-center justify-center gap-6 text-center">
+      <main className="flex flex-1 flex-col items-center justify-center gap-6 text-center py-8">
         <h1 className="text-md sm:text-3xl">
           this page is currently <br />under construction
         </h1>
@@ -14,7 +14,7 @@ export default function ConstructionMessage() {
             width={400}
             height={400}
             unoptimized
-            className="border-4 border-accent"
+            className="h-auto w-64 border-4 border-accent sm:w-84 md:w-96"
           />
         </Link>
         <h2 className="text-sm sm:text-2xl">please come back later</h2>

@@ -19,12 +19,12 @@ export default function NavLink({
                 <span className="font-web-title text-accent">{children}</span>
             ) : (
                 <div>
-                    <span className="font-web-subtitle transition-opacity group-hover:opacity-0">
+                    <span className="font-web-subtitle [@media(hover:hover)]:transition-opacity [@media(hover:hover)]:group-hover:opacity-0">
                         {children}
                     </span>
                     <span
-                    aria-hidden
-                    className="pointer-events-none absolute inset-0 font-web-title opacity-0 transition-opacity group-hover:opacity-100"
+                        aria-hidden
+                        className="pointer-events-none absolute inset-0 font-web-title opacity-0 [@media(hover:hover)]:transition-opacity [@media(hover:hover)]:group-hover:opacity-100"
                     >
                         {children}
                     </span>
