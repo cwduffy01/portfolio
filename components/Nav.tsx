@@ -16,7 +16,7 @@ export default function Nav() {
     }, [pathname]);
 
     return (
-        <div className="p-6 select-none">
+        <div className="select-none py-6">
             <div className="flex w-full justify-between items-center">
                 <div className="flex-1 md:hidden"></div>
                 <div className="text-5xl md:text-6xl font-web-title leading-none text-accent">

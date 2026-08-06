@@ -8,7 +8,7 @@ import { SlSocialLinkedin } from "react-icons/sl";
 
 export default function Footer() {
     return (
-        <div className="px-6">
+        <div className="">
             <hr className="border-t-2 border-dashed border-foreground" />
             <div className="flex py-3 items-center justify-center">
                 <div className="hidden md:flex-1"></div>

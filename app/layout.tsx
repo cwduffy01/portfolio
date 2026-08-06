@@ -47,7 +47,7 @@ export default function RootLayout({
       lang="en"
       className={`${kumarOne.variable} ${kumarOneOutline.variable} ${jetBrainsMono.variable} ${vt323.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col px-6">
         <Nav/>
         {children}
         <Footer/>
