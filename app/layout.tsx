@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Nav from "@/components/Nav";
 
 import { Kumar_One } from "next/font/google";
 import { Kumar_One_Outline } from "next/font/google";
 import { JetBrains_Mono } from "next/font/google";
 import { VT323 } from "next/font/google";
+
+import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 
 const kumarOne = Kumar_One({

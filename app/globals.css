@@ -23,8 +23,9 @@
   --color-accent: var(--accent);
   --font-web-title: var(--font-kumar-one);
   --font-web-subtitle: var(--font-kumar-one-outline);
-  --font-title: var(--font-vt323);
+  --font-header: var(--font-vt323);
   --font-body: var(--font-jetbrains-mono);
+  --animate-marquee: marquee 12s linear infinite;
 }
 
 body {
@@ -38,4 +39,10 @@ body {
   body {
     font-size: 1rem; /* md and up — matches Tailwind's md */
   }
+}
+
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
 }
