@@ -4,12 +4,17 @@ import ProjectCard from "./ProjectCard"
 import { FiFilter } from "react-icons/fi"
 
 import { useState, useEffect, useRef } from "react";
+import { Project } from "@/lib/projects";
 
-export default function ProjectGrid () {
+export default function ProjectGrid ({
+    projects
+} : {
+    projects: Project[]
+}
+
+) {
     const [activeIndex, setActiveIndex] = useState<number | null>(null);
     const cardRefs = useRef<(HTMLElement | null)[]>([]);
-
-    const cards = Array.from({ length: 10 });
 
     useEffect(() => {
         const shouldTrack = window.matchMedia(
@@ -67,14 +72,20 @@ export default function ProjectGrid () {
             </div>
 
             <div className="grid grid-cols-1 gap-x-4 gap-y-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 pt-4 pb-40 md:py-6">
-                {cards.map((_, index) => (
+                {projects.map((project, index) => (
                     <div
                         key={index}
                         ref={(el) => {
                             cardRefs.current[index] = el;
                         }}
                     >
-                        <ProjectCard isActive={activeIndex === index} />
+                        <ProjectCard
+                            title={project.frontmatter.title}
+                            slug={project.slug}
+                            date={String(project.frontmatter.date)}
+                            tags={project.frontmatter.tags}
+                            isActive={activeIndex === index}
+                        />
                     </div>
                 ))}
             </div>
