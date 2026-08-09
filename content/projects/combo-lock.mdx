@@ -6,6 +6,10 @@ tags: ["laser cutting", "3d modeling", "chain reactions", "kinetic art", "rube g
 summary: "Combination lock developed for Reactica 2025"
 ---
 
+## Description
+
+This article outlines the process behind putting together the Combo Lock section for Reactica 2025. Please note that syntax errors. spleling errors, and grammar errors is more than likely. This article still needs a good proofread, but for my own sanity, I wanted to get a version of the article out to everyone so I can make some progress towards documenting this project. Thank you so much for reading :^) hope you enjoy
+
 ## Pre-Event
 
 ### Design Problem (Tuesday 7/8/25)
@@ -20,7 +24,7 @@ My immediate thought was to create something that mimicked this design:
 
 This photo was taken from [boxes.py](https://boxes.hackerspace-bamberg.de/?language=en), a website designed to generate drawings for laser-cut boxes. I would need to create boxes with ten sides as opposed to six and place the digits 0-9 on each of the sides. There would be five reels, and at some point, they would need to spin and stop on the proper number to reveal the code. Here's a brief sketch of the structure I'm envisioning:
 
-(Image)
+![IMG_6173](/images/projects/combo-lock/IMG_6173.jpeg)
 
 Decagons are quite difficult to draw in isometric view
 
@@ -55,7 +59,7 @@ As always, for projects like this, my first step is to create a prototype for tw
 
 Here is how I envision splitting the wheels into smaller pieces:
 
-(Image)
+![IMG_6176](/images/projects/combo-lock/IMG_6176.jpeg)
 
 The center piece is a decagon and joins ten identical trapezoidal wheel sections via planar finger joints, forming a large decagon disc. Two decagon discs notch into the number panels via orthogonal finger joints, forming a number wheel. The hole in the middle of the center piece is where the wheel rotates around the center axle. My first thought is to house skateboard bearings within the center pieces and fit the axle through the center of the bearing. This would minimize the friction around the axle, allowing us to rotate the wheels with as little force as possible and play with the "theatrics" of the spinning motion.
 
@@ -63,7 +67,7 @@ Originally, I wanted to generate the wheels via boxes.py and modify them in Fusi
 
 This add-on allows for negative finger spacing, forcing the finger joints to overlap. When the machine cuts, it removes material according to the laser's kerf (or "width"). The joints must be designed to overlap according to the laser's kerf such that they form a tight fit when pieced together (although I plan to reinforce the pieces with glue during build week). 
 
-Another important thing to note is that the height of the finger joints is dependent on the thickness of the material, specifically for the number panel joints. This means I needed to acquire material BEFORE designing. I picked up some 1/4" MDF from Home Depot (which isn't actually 1/4" thick) and drafted up a quick design in Fusion (with an arbitrary 1:1.8989832 scale). (Note: I tried to create a model that adjusted according to a material thickness variable to make it easier on myself for the final design, but the add-on I was using wouldn't cooperate). 
+Another important thing to note is that the height of the finger joints is dependent on the thickness of the material, specifically for the number panel joints. This means I needed to acquire material BEFORE designing. I picked up some 1/4" MDF from Home Depot (which isn't actually 1/4" thick) and drafted up a quick design in Fusion (with an arbitrary 1:2-ish scale). (Note: I tried to create a model that adjusted according to a material thickness variable to make it easier on myself for the final design, but the add-on I was using wouldn't cooperate). 
 
 After running some tests, adjusting the tolerances, and making my cuts, I took the pieces home and assembled them the next morning. 
 
@@ -71,14 +75,15 @@ I must mention something important to keep in mind: the Rube Goldberg designer's
 
 To join the pieces together, I plan on hot gluing popsicle sticks across the finger joints on the surface of the discs as if they were "bandages". The other side of the disc will be left clean and face the outside of the wheel to hide the bandaging. The number panels will be glued at the 90 degree joints to enclose the shape and hide all of the gluing. Here's a helpful addition to my diagram to illustrate what I plan on doing:
 
-(Image)
+![IMG_6178](/images/projects/combo-lock/IMG_6178.JPG)
 
 I used this method to join the prototype's pieces together. Then, after inserting the bearings and sliding a dowel through the center, I had my prototype!
 
 ![IMG_5789](/images/projects/combo-lock/IMG_5789.MOV)
 
-This turned out amazing! And it spun so smoothly! And looked pretty clean as well. With the information I gathered while producing the prototype, I was ready to attempt the final product. 
-### Final Product (Wednesday 7/9/25)
+This turned out amazing! And it spun so smoothly! And looked pretty clean as well. With the information I gathered while producing the prototype, I was ready to attempt the final product.
+
+### Final Product (Wednesday 7/9)
 
 Aside from designing to 1:1 scale, I had a few changes in mind for the final product. First, i believed I could achieve the same goals with 1/8" material instead of 1/4" material. This way, the pieces would be much lighter and have a higher likelihood of fitting inside of my suitcase. 
 
@@ -100,14 +105,15 @@ It looks great! After all the proper tests and assemblies, it was time to cut th
 
 While carrying the pieces to my apartment, I thought to myself, "Wow, these are a lot heavier than I anticipated." I weighed one of the sets on my kitchen scale and determined that altogether, the pieces weigh 40lbs. I'm considering myself lucky that the pieces didn't cross over the TSA weight threshold. In hindsight, I really should have cut holes out of the wheel section pieces to remove unnecessary weight. 
 
-### Stencils (Thursday 7/10/25)
+### Stencils (Thursday 7/10)
 
 After thinking about the finish of the reels, I decided to spend an extra day at the makerspace to cut out some stencils in case we wanted to paint the number panels. I did this with 8.5" x 11" cardstock.
 
 Since I had a lot of sheets to cut, I needed a clever way to speed up the process. I laid blue masking tape on the laser cutter's bed, cut out an 8.5" x 11" square, and removed all tape inside of the square. What was left was a sheet placement stencil made of blue tape. I could set the origin to one corner and leave it fixed, placing a new sheet in the stencil with every cut. This way, I could avoid resetting the origin with every new sheet of cardstock.
 
 I cut a stencil for each digit that aligns with the notches of the number panels. I could also just use the number cutouts as decals to glue on the reel itself. We'll see what works best!
-### Travel (7/11/25)
+
+### Travel (7/11)
 
 I assumed I would be able to fit all of the pieces in the carry-on suitcase I had on hand. I was wrong. I will need a new one. (My carry-on bag actually has a broken wheel so this is a good excuse to get a new one anyways).
 
@@ -117,7 +123,7 @@ I got up a few hours before leaving for my flight, drove to the nearest Walmart,
 
 ## Build Week
 
-### Build Day 1 (Sunday 7/13/25)
+### Build Day 1 (Sunday 7/13)
 
 ![A8E2697E-836E-4DFF-A1E7-956248A69080_1_105_c](/images/projects/combo-lock/A8E2697E-836E-4DFF-A1E7-956248A69080_1_105_c.jpeg)
 
@@ -128,7 +134,6 @@ After moving all the materials from the museum's supply closet to the build room
 I was thrilled to cross that one off 😄
 
 Evan and I got to work and started putting the wheels together, bandaging them with hot glue and popsicle sticks as I did in the prototype. Then, we inserted the two bearings I brought with me into the first wheel and reinforced them with more (you guessed it) hot glue. Evan ordered more bearings to arrive in the afternoon. 
-
 
 ![EB3D1029-550D-48C2-AC50-93BF9B0A30D0_1_105_c](/images/projects/combo-lock/EB3D1029-550D-48C2-AC50-93BF9B0A30D0_1_105_c.jpeg)
 
@@ -145,7 +150,8 @@ While we were testing, the bearings became undone from the hot glue seam made wi
 ![IMG_5849](/images/projects/combo-lock/IMG_5849.MOV)
 
 The skateboard bearings soon arrived in the mail, and we spent the rest of the day gluing the wheel parts together, inserting the bearings, glueing the seams, and building the k'nex supports for the rest of the wheels. It was very tiring and monotonous work, but it was nice to get it out of the way. By the end of the day, I started seeing the product I envisioned begin to manifest, and I was getting super excited to see all five wheels in action.
-### Build Day 2 (Monday 7/14/25)
+
+### Build Day 2 (Monday 7/14)
 
 The prop was getting big enough to warrant finding a space for it. Alex recommended we place it on an elevated platform close to the ground. We took the surfaces off the provided build tables, secured beams underneath them with 3M double-sided tape, and placed the surface on top of milk crates. Then, it was time to place the wheel assembly onto the platform.
 
@@ -160,7 +166,8 @@ From here, we brainstormed a few different solutions. Mine involved some overcom
 ![IMG_5856](/images/projects/combo-lock/IMG_5856.JPG)
 
 After losing in round one of the [domino duel bracket](https://youtu.be/6cgy2LsrwVM?si=hWRNtofA4wQIatmg), we wrapped everything up and called it a day.
-### Build Day 3 (Tuesday 7/15/25)
+
+### Build Day 3 (Tuesday 7/15)
 
 It takes quite a bit of time for the wheels to get up to speed with the current pulley-weight system. I decided to use rubber bands to kick off the wheel's motion. In the starting position, the rubber band latches onto a subtle hook on the outside of the wheel. As it rotates, the rubber band shrinks and disengages, allowing the wheel to spin freely. 
 
@@ -186,7 +193,7 @@ After build day, I went on a materials run with Alex and Evan to pick up some pa
 
 ![DF5B10EC-0B0A-47E2-AF8F-CC2FE6B7D839_1_105_c](/images/projects/combo-lock/DF5B10EC-0B0A-47E2-AF8F-CC2FE6B7D839_1_105_c.jpeg)
 
-### Build Day 4 (Wednesday 7/16/25)
+### Build Day 4 (Wednesday 7/16)
 
 Day 4 consisted of many many many many different tests of the combination reels. There's a stage in the development of every machine trick in which all of the core elements are laid out, the sequencing is dialed down, and the trick should theoretically work, but you keep running into minor bugs and errors that need to be addressed. That's exactly where I am with this trick.
 
@@ -205,8 +212,6 @@ Here are most bugs I encountered today:
 ![18639726-0FFB-4A99-8660-F7C1F8CE5450_1_105_c](/images/projects/combo-lock/18639726-0FFB-4A99-8660-F7C1F8CE5450_1_105_c.jpeg)
 ![C609C42C-03A0-488E-BF62-A69CFFCF22D0_1_105_c](/images/projects/combo-lock/C609C42C-03A0-488E-BF62-A69CFFCF22D0_1_105_c.jpeg)
 
-
-
 Also, now that the table was moved to its final location, my build area has become much tighter. Unfortunately, my section is right next to the finale section, featuring structures that consist of thousands of dominoes.
 
 ![80C07087-2679-4A53-98BE-B9209DEEACEF_1_105_c](/images/projects/combo-lock/80C07087-2679-4A53-98BE-B9209DEEACEF_1_105_c.jpeg)
@@ -214,10 +219,10 @@ Also, now that the table was moved to its final location, my build area has beco
 In the evening, I did a quick paint test to verify that the finish would look good on the wheels. 
 
 ![07202FE2-1C3B-4ED4-9A58-144FB9FECE86_1_105_c](/images/projects/combo-lock/07202FE2-1C3B-4ED4-9A58-144FB9FECE86_1_105_c.jpeg)
-### Build Day 5 (Thursday 7/17/25)
+
+### Build Day 5 (Thursday 7/17)
 
 As the week progressed, the immense pressure placed on this machine section became more and more palpable, and by Day 5, I could taste it. Not only should this machine work, it actually *better* work. This is the LAST machine section that leads into the finale section, and to properly communicate the event's theme, it has to display the code correctly. Otherwise, the concept will be lost on the live audience consisting of 300+ museum-goers. The goal of Day 5 was to tweak the combo lock section until it was reliable enough to earn my  trust, and I am a machine builder with serious trust issues (especially in live settings). 
-
 
 For the first part of the day, I made some more tweaks to further improve the reliability the release levers, which proved to be the most tedious facet of this machine to perfect. Then, it was time to do my first round of regimented testing. I tested the trick ten times in a row, and it worked for nine out of ten. The only fail occurred because the metal ball stopped rolling down the track. I increased the track's pitch, and every test thereafter worked great. Better yet, none of the tests had early triggers. I think we can go ahead and call this trick a consistent success!
 
@@ -231,7 +236,7 @@ The remaining tests worked perfectly.
 
 ![IMG_5896](/images/projects/combo-lock/IMG_5896.mov)
 
-### Build Day 6 (Friday 7/18/25)
+### Build Day 6 (Friday 7/18)
 
 Day 6 was paint day. The first order of business was to paint all of the reels dark grey. This was a pretty simple task, albeit time consuming. I also kept an eye on the fishing line, doing everything in my power to keep it free of paint. One thing of note is that I left the sides of the in-between reels unpainted per the suggestion of my teammates. I was planning on painting a few inches towards the middle (as far as my hand could reach) but they suggested leaving the plywood bare since it visually separates the wheels from each other a bit. 
 
@@ -251,22 +256,29 @@ I ran some more tests and discovered some more bugs due to the painted surface, 
 
 ![IMG_5917](/images/projects/combo-lock/IMG_5917.mov)
 
-### Topple Day (Saturday 7/19/25)
+### Topple Day (Saturday 7/19)
 
 After running some more tests in the morning for anxiety reasons, there was nothing left to do aside from setting the machine up and hoping for the best. 
 
-I forgot how anxious I got during the moments before topple. The last event I participated in was in 2018. I remembered so vividly the feelings of anticipation while watching the audience pour into event room, watching the dominoes fill in safety gaps, and listening to the emcee do crowd work. Plus, if I wasn't feeling the full pressure of the stakes associated with my machine section, I was certainly feeling it now. I really, really, really wanted this machine to work, which is why I reacted the way I did when it executed successfully.
+I forgot how anxious I get during the moments before topple. The last event I participated in was in 2018. I remembered so vividly the feelings of anticipation while watching the audience pour into event room, watching the domino builders fill in safety gaps, and listening to the emcee hype up the crowd. Plus, if I wasn't feeling the full pressure of the combo lock stakes earlier, I was certainly feeling it now. I really, really, really wanted this machine to work, which is why I reacted the way I did when it executed successfully.
 
-
+![celebration](/images/projects/combo-lock/celebration.gif)
 
 All of the intense, tedious, meticulous work I put into this was 10000% worth it. The audience seemed to be really impressed by my creation, since the rotating wheels elicited a unanimous "ooooOOOHHHH" from the crowd. I was so proud of myself for completing such a new and daunting challenge for an event as special as this. More importantly, I was extraordinarily proud of my team members too. The dominoes fell beautifully, and all the machine sections worked perfectly! Most event stops occur within machines due to their unpredictable nature. A zero machine fail topple is practically unheard of. 
 
-### Cleanup 
+### Cleanup (Saturday 7/19 - Sunday 7/20)
 
 After the event finished, it was time to begin the tedious process of cleaning up the event space and taping footage for the section closeup. I don't have much to discuss about this process, so here are some videos of the shenanigans we got up to:
 
+![nanigans1](/images/projects/combo-lock/nanigans1.mov)
 
+![nanigans2](/images/projects/combo-lock/nanigans2.mov)
 
+![nanigans3](/images/projects/combo-lock/nanigans3.mov)
+
+![nanigans4](/images/projects/combo-lock/nanigans4.mov)
+
+![nanigans5](/images/projects/combo-lock/nanigans5.MOV)
 
 ### Reflections
 
@@ -277,16 +289,20 @@ I'm so grateful I got to work on this section for Reactica this year. I feel lik
 - Designing props for an audience in a "performance art context"
 - Collaborating with people who have different styles and skillsets
 
-Returning to kinetic art events for the first time in 7 years was also a very unique (and sometimes daunting) experience. I would like to extend a massive "thank you" to the Reactica 2025 team for being so welcoming. Thank you to Evan Voeltner, Lyle Broughton, and Jade Decker for working with me on this project throughout build week. And lastly, thank you to Alex Huang and Chase Blanchette for the countless hours they put into planning / leading this event. Most of the work it takes to pull off an event like this occurs behind the scenes. If it weren't for their leadership, then none of this would be possible!
+Returning to kinetic art events for the first time in 7 years was a very unique (and sometimes daunting) experience. I would like to extend a massive "thank you" to the Reactica 2025 team for being so welcoming. Thank you to Evan Voeltner, Lyle Broughton, and Jade Decker for working with me on this project throughout build week. And lastly, thank you to Alex Huang and Chase Blanchette for the countless hours they put into planning / leading this event. Most of the work it takes to pull off an event like this occurs behind the scenes. If it weren't for their leadership, then none of this would be possible!
 
-
-
-### Links:
+### Links
 
 Here is where you can watch the full Reactica 2025 topple:
 
-
+<YouTube
+  src="https://www.youtube.com/embed/kyCzdbTEBnw?si=rN9wVd6DTet4qoE_"
+  title="Reactica 2025 full topple"
+/>
 
 Here is the section close-up for the combo wheel, which illustrates the finer details of this project:
 
-
+<YouTube
+  src="https://www.youtube.com/embed/FrritMaZ9x8?si=unyliI6zWa2aujBj"
+  title="The Combo Lock | Reactica section close-up"
+/>
