@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Nav from "@/components/Nav";
 
 import { Kumar_One } from "next/font/google";
 import { Kumar_One_Outline } from "next/font/google";
 import { JetBrains_Mono } from "next/font/google";
 import { VT323 } from "next/font/google";
+
+import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
 
 const kumarOne = Kumar_One({
@@ -34,6 +35,18 @@ const vt323 = VT323({
 
 export const metadata: Metadata = {
   title: "Carson Duffy",
+  icons: [
+    {
+      rel: "icon",
+      url: "/favicon-light.ico",
+      media: "(prefers-color-scheme: light)",
+    },
+    {
+      rel: "icon",
+      url: "/favicon-dark.ico",
+      media: "(prefers-color-scheme: dark)",
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -46,7 +59,7 @@ export default function RootLayout({
       lang="en"
       className={`${kumarOne.variable} ${kumarOneOutline.variable} ${jetBrainsMono.variable} ${vt323.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col px-6">
         <Nav/>
         {children}
         <Footer/>
