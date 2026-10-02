@@ -74,6 +74,30 @@ body {
   }
 }
 
+/* Caption from markdown image title: ![alt](src "caption") */
+.mdx-figure {
+  margin: 2rem auto;
+  max-width: 100%;
+}
+
+.mdx-caption {
+  margin-top: 0.5rem;
+  text-align: center;
+  font-size: 0.8rem;
+  line-height: 1.45;
+  color: color-mix(in srgb, var(--foreground) 75%, transparent);
+}
+
+.article-body .mdx-media-row .mdx-figure,
+.article-body .mdx-gallery-thumb .mdx-figure {
+  margin: 0;
+  max-width: min(100%, 20rem);
+}
+
+.article-body .mdx-gallery-thumb .mdx-caption {
+  line-height: 1.45;
+}
+
 /* Horizontal-scroll gallery */
 .article-body .mdx-gallery {
   display: flex;
@@ -199,4 +223,13 @@ body {
 
 .mdx-lightbox-nav button:hover {
   color: var(--background);
+}
+
+.mdx-lightbox-caption {
+  max-width: min(36rem, 90vw);
+  margin: 0.75rem 0 0;
+  text-align: center;
+  color: var(--background);
+  font-size: 0.875rem;
+  line-height: 1.45;
 }

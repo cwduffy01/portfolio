@@ -1,5 +1,18 @@
-import type { ComponentPropsWithoutRef } from "react";
+import { Children, isValidElement, type ComponentPropsWithoutRef } from "react";
 import { Gallery, MediaImg, MediaRow, YouTube } from "@/components/MdxMedia";
+
+/** Markdown wraps a lone image in <p>. A <figure> caption cannot live inside <p>. */
+function isMediaOnlyParagraph(children: ComponentPropsWithoutRef<"p">["children"]) {
+  const items = Children.toArray(children).filter((child) => {
+    if (typeof child === "string") return child.trim().length > 0;
+    return true;
+  });
+  return (
+    items.length === 1 &&
+    isValidElement(items[0]) &&
+    items[0].type === MediaImg
+  );
+}
 
 export const mdxComponents = {
   h1: (props: ComponentPropsWithoutRef<"h1">) => (
@@ -14,9 +27,12 @@ export const mdxComponents = {
   h4: (props: ComponentPropsWithoutRef<"h4">) => (
     <h4 className="font-header mt-6 mb-2 text-2xl" {...props} />
   ),
-  p: (props: ComponentPropsWithoutRef<"p">) => (
-    <p className="font-body my-4 leading-relaxed" {...props} />
-  ),
+  p: (props: ComponentPropsWithoutRef<"p">) =>
+    isMediaOnlyParagraph(props.children) ? (
+      <>{props.children}</>
+    ) : (
+      <p className="font-body my-4 leading-relaxed" {...props} />
+    ),
   a: (props: ComponentPropsWithoutRef<"a">) => (
     <a className="text-accent underline underline-offset-2" {...props} />
   ),

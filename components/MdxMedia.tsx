@@ -34,7 +34,7 @@ function sizeClassFor(orientation: "landscape" | "portrait" | null) {
   return join(LANDSCAPE_CLASS, PORTRAIT_CLASS);
 }
 
-type Slide = { src: string; alt: string };
+type Slide = { src: string; alt: string; caption?: string };
 
 function Lightbox({
   slides,
@@ -100,6 +100,14 @@ function Lightbox({
         className="mdx-lightbox-img"
         onClick={(e) => e.stopPropagation()}
       />
+      {active.caption && (
+        <p
+          className="mdx-lightbox-caption font-body"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {active.caption}
+        </p>
+      )}
       {total > 1 && (
         <div
           className="mdx-lightbox-nav font-body"
@@ -129,12 +137,34 @@ function Lightbox({
   );
 }
 
+function captionFromTitle(title: unknown): string | undefined {
+  return typeof title === "string" && title.trim() ? title : undefined;
+}
+
+function MediaFrame({
+  caption,
+  children,
+}: {
+  caption?: string;
+  children: ReactNode;
+}) {
+  if (!caption) return children;
+
+  return (
+    <figure className="mdx-figure">
+      {children}
+      <figcaption className="mdx-caption font-body">{caption}</figcaption>
+    </figure>
+  );
+}
+
 export function MediaImg({
   lightbox = true,
   ...props
 }: ComponentPropsWithoutRef<"img"> & { lightbox?: boolean }) {
-  const { src, alt, className, ...rest } = props;
+  const { src, alt, title, className, ...rest } = props;
   const srcString = typeof src === "string" ? src : undefined;
+  const caption = captionFromTitle(title);
   const [orientation, setOrientation] = useState<
     "landscape" | "portrait" | null
   >(null);
@@ -142,34 +172,38 @@ export function MediaImg({
   const closeLightbox = useCallback(() => setOpen(false), []);
 
   // MDX image syntax is also used for video files in the content.
+  const mediaClass = join(
+    "mx-auto block h-auto max-w-full object-contain",
+    caption ? "my-0" : "my-8",
+    sizeClassFor(orientation),
+    className,
+  );
+
   if (isVideoSrc(srcString)) {
     return (
-      <video
-        src={srcString}
-        controls
-        playsInline
-        aria-label={alt || undefined}
-        className={join(BASE_CLASS, sizeClassFor(orientation), className)}
-        onLoadedMetadata={(e) => {
-          const { videoWidth, videoHeight } = e.currentTarget;
-          setOrientation(videoHeight > videoWidth ? "portrait" : "landscape");
-        }}
-      />
+      <MediaFrame caption={caption}>
+        <video
+          src={srcString}
+          controls
+          playsInline
+          aria-label={alt || caption || undefined}
+          className={mediaClass}
+          onLoadedMetadata={(e) => {
+            const { videoWidth, videoHeight } = e.currentTarget;
+            setOrientation(videoHeight > videoWidth ? "portrait" : "landscape");
+          }}
+        />
+      </MediaFrame>
     );
   }
 
   return (
-    <>
+    <MediaFrame caption={caption}>
       {/* eslint-disable-next-line @next/next/no-img-element -- MDX media sizes vary; keep v1 simple */}
       <img
         src={src}
-        alt={alt ?? ""}
-        className={join(
-          BASE_CLASS,
-          sizeClassFor(orientation),
-          lightbox && "mdx-lightbox-trigger",
-          className,
-        )}
+        alt={alt ?? caption ?? ""}
+        className={join(mediaClass, lightbox && "mdx-lightbox-trigger")}
         onClick={
           lightbox && srcString
             ? () => setOpen(true)
@@ -183,13 +217,13 @@ export function MediaImg({
       />
       {open && srcString && (
         <Lightbox
-          slides={[{ src: srcString, alt: alt ?? "" }]}
+          slides={[{ src: srcString, alt: alt ?? "", caption }]}
           index={0}
           onClose={closeLightbox}
           onIndexChange={closeLightbox}
         />
       )}
-    </>
+    </MediaFrame>
   );
 }
 
@@ -204,7 +238,12 @@ export function MediaRow({ children }: { children: ReactNode }) {
   return (
     <div className="mdx-media-row my-6">
       {slides.map((slide) => (
-        <MediaImg key={slide.src} src={slide.src} alt={slide.alt} />
+        <MediaImg
+          key={slide.src}
+          src={slide.src}
+          alt={slide.alt}
+          title={slide.caption}
+        />
       ))}
     </div>
   );
@@ -213,12 +252,13 @@ export function MediaRow({ children }: { children: ReactNode }) {
 function slidesFromChildren(children: ReactNode): Slide[] {
   return Children.toArray(children).flatMap((child) => {
     if (!isValidElement(child)) return [];
-    const props = child.props as { src?: unknown; alt?: unknown };
+    const props = child.props as { src?: unknown; alt?: unknown; title?: unknown };
     if (typeof props.src !== "string") return [];
     return [
       {
         src: props.src,
         alt: typeof props.alt === "string" ? props.alt : "",
+        caption: captionFromTitle(props.title),
       },
     ];
   });
@@ -235,7 +275,13 @@ export function Gallery({ children }: { children: ReactNode }) {
   if (slides.length === 0) return null;
 
   if (slides.length === 1) {
-    return <MediaImg src={slides[0].src} alt={slides[0].alt} />;
+    return (
+      <MediaImg
+        src={slides[0].src}
+        alt={slides[0].alt}
+        title={slides[0].caption}
+      />
+    );
   }
 
   return (
@@ -253,7 +299,12 @@ export function Gallery({ children }: { children: ReactNode }) {
             onClick={() => setLightbox(i)}
             aria-label={`View larger: ${slide.alt || `image ${i + 1}`}`}
           >
-            <MediaImg src={slide.src} alt={slide.alt} lightbox={false} />
+            <MediaImg
+              src={slide.src}
+              alt={slide.alt}
+              title={slide.caption}
+              lightbox={false}
+            />
           </button>
         ))}
       </div>

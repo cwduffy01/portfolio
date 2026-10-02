@@ -26,12 +26,45 @@ function toTimestamp(date: string): number {
     return new Date(year, mm - 1, dd).getTime();
 }
 
-const IMAGE_LINE = /^!\[([^\]]*)\]\(([^)]+)\)\s*$/;
 /** Consecutive image runs this long (or longer) become a click-through gallery. */
 const GALLERY_MIN = 5;
 
+type MarkdownImage = {
+    alt: string;
+    src: string;
+    /** Visible caption. Omitted when the image has no caption. */
+    title?: string;
+};
+
 function escapeAttr(value: string): string {
     return value.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
+}
+
+/**
+ * `![alt](src)` or `![alt](src "caption")`.
+ * Captions use a markdown title so existing articles (alt only) stay unchanged.
+ */
+function parseMarkdownImage(line: string): MarkdownImage | null {
+    const trimmed = line.trim();
+    if (!trimmed.startsWith("![") || !trimmed.endsWith(")")) return null;
+
+    const altEnd = trimmed.indexOf("](");
+    if (altEnd < 2) return null;
+
+    const alt = trimmed.slice(2, altEnd);
+    const inner = trimmed.slice(altEnd + 2, -1).trim();
+    const titled = inner.match(/^(\S+)\s+(?:"([^"]*)"|'([^']*)')$/);
+
+    if (!titled) {
+        return { alt, src: inner };
+    }
+
+    const title = titled[2] ?? titled[3];
+    return {
+        alt,
+        src: titled[1],
+        title: title || undefined,
+    };
 }
 
 function isImageOnlyBlock(block: string): boolean {
@@ -40,7 +73,7 @@ function isImageOnlyBlock(block: string): boolean {
         .split("\n")
         .map((line) => line.trim())
         .filter(Boolean);
-    return lines.length > 0 && lines.every((line) => IMAGE_LINE.test(line));
+    return lines.length > 0 && lines.every((line) => parseMarkdownImage(line) !== null);
 }
 
 function imageLinesFromBlock(block: string): string[] {
@@ -54,10 +87,12 @@ function imageLinesFromBlock(block: string): string[] {
 function markdownImagesToImgTags(lines: string[]): string {
     return lines
         .map((line) => {
-            const match = line.match(IMAGE_LINE);
-            if (!match) return line;
-            const [, alt, src] = match;
-            return `<img src="${escapeAttr(src)}" alt="${escapeAttr(alt)}" />`;
+            const image = parseMarkdownImage(line);
+            if (!image) return line;
+            const title = image.title
+                ? ` title="${escapeAttr(image.title)}"`
+                : "";
+            return `<img src="${escapeAttr(image.src)}" alt="${escapeAttr(image.alt)}"${title} />`;
         })
         .join("\n");
 }
@@ -73,10 +108,12 @@ function normalizeExplicitGalleries(content: string): string {
             .map((line) => line.trim())
             .filter(Boolean)
             .map((line) => {
-                const match = line.match(IMAGE_LINE);
-                if (!match) return line;
-                const [, alt, src] = match;
-                return `<img src="${escapeAttr(src)}" alt="${escapeAttr(alt)}" />`;
+                const image = parseMarkdownImage(line);
+                if (!image) return line;
+                const title = image.title
+                    ? ` title="${escapeAttr(image.title)}"`
+                    : "";
+                return `<img src="${escapeAttr(image.src)}" alt="${escapeAttr(image.alt)}"${title} />`;
             });
         return `<Gallery>\n${lines.join("\n")}\n</Gallery>`;
     });

@@ -6,14 +6,120 @@ tags: ["embedded systems", "alleyca asset acquisitions", "neotropolis", "immersi
 summary: "Development for Symbol Match"
 ---
 
-## Overview
 
-Short intro to the piece — what someone walking into the room experiences.
 
-## Process
+## Neotropolis background
 
-How you made it: electronics, fabrication, software, iteration.
+Neotropolis is a four-day cyberpunk art festival in the Mojave Desert. It's also the name of a fictional city set on a desert planet known as Kepler 609c. During the event, ticket holders are invited to reside in the city, costume as original characters, and engage in live-action role play (LARP) with other city dwellers. 
 
-## Outcome
+The event is also full of missions, concerts, and tech experiences developed by the event's factions, one of which is Alleycat Asset Acquisitions (AAA). AAA has been developing immersive ice-breaking experiences for Neotropolis since the dawn of the event. What started as a means to get to know other Neo-dwellers became a fully-fledged bounty-hunting training experience facilitated by custom handheld devices. 
 
-What shipped, what you learned, where it was shown.
+I met the team lead, Cyonic, back in April of 2025 and have been developing with AAA since November 2025. I had the privilege of developing one of the gaming experiences we debuted in 2026. This article describes how it came to be. 
+## Development
+
+The Symbol Match concept originated on 3/10/26. Cyonic had been developing a new device for Neo 2226: a wall-mounted kiosk for players to jack into and interact with via their handheld devices. Since the handheld device was known as the "portable data node" (PDN), it followed that this should be called the "fixed data node" (FDN). 
+
+![4025AAA1-89EF-4C66-B3F0-4142E28EC47D_1_105_c](/images/projects/symbol-match/4025AAA1-89EF-4C66-B3F0-4142E28EC47D_1_105_c.jpeg)
+
+
+During a meeting, we brainstormed ideas for FDN experiences. We came up with some rough concepts for new games, ways to access player information, etc. I suggested developing a puzzle game in which "the players are the pieces". Since our bounty hunting game was primarily competitive, it made sense to complement it with a *cooperative* experience. This way, we could complicate the gameplay by encouraging the players to make strategic tradeoffs with their collaborators / competitors. 
+
+Here are the notes I took during that meeting.
+
+![IMG_1493](/images/projects/symbol-match/IMG_1493.JPG)
+
+From this notion of "the players are the pieces" emerged a plethora of ideas for new gameplay. We settled on a concept we called "Symbol Match". 
+
+Each player was provisioned a symbol they could view on their PDN via the home page. Each FDN would be "locked" behind a puzzle-based firewall. The screen displays a pair of symbols at any given time, along with a countdown timer. Players can send their symbol to the FDN by jacking into the correct port and pressing the bottom button, but the device will only respond to a *matching* symbol. Additionally, the FDN is unlocked only when *both* symbols are successfully matched. This means that players must identify players with corresponding symbols and collaborate with them to unlock devices. They must move quickly, though, because the pair of symbols will refresh every time the countdown timer reaches 0, or when another pair of players matches successfully. 
+
+A key aspect of this game was the lack of provided information. We gave players no knowledge of the symbol's purpose, or how to interact with the FDNs. The players had to figure out how to solve this puzzle together. 
+
+![Concept sketch and state machine brainstorming](/images/projects/symbol-match/IMG_1494.JPG "Concept sketch and state machine brainstorming")
+
+As we approached the event, we decided to focus the scope of the Symbol Match game a bit. We planned to upload successful symbol matches to our server. Players would be tasked with matching successfully on all seven devices across the event, impacting their positions on a leaderboard.
+
+![IMG_1495](/images/projects/symbol-match/IMG_1495.JPG)
+
+
+I started developing this game in mid-March 2026, but soon became preoccupied with urgent matters (see [Sphynx V1](/portfolio/sphynx-v1)). I didn't finish writing the code before the PDN code freeze, but I was able to merge into the codebase right before Cyonic and Dray left for the Mojave Desert. All that was left to do development-wise was write the FDN connections to the server and upload matches. We planned to implement and test this onsite.
+
+## Implementation
+
+### Days 1 & 2
+
+The implementation of the FDNs at Neotropolis was MUCH tricker than any of us could have expected. 
+
+Days 1 and 2 of Neotropolis were full of all kinds of urgent tech issues that needed to be addressed before we could even *think* about putting up the FDNs. During the night of Day 2, Cyonic and I started looking at the FDN server connection code. 
+
+In this moment, we realized a critical gap in the codebase that nearly stopped us in our tracks. We never wrote a communication spec between the PDN and the FDN to exchange the player's ID. This meant that the FDNs had no knowledge of who unlocked the device, which was crucial for updating the leaderboard.
+
+Implementing this communication spec meant re-flashing the firmware on every device, including all 200+ PDNs. That was not going to happen. Not only was it a time-intensive task, but we did not want to risk interfering with the bounty-hunting experience. 
+
+We desperately tried to find a workaround solution to this problem, looking to exploit our own codebase to *somehow* get this information to the FDN. Cyonic came up with a solution worth trying. 
+
+![Brainstorming sketches for a workaround solution (don't ask me what any of this means)](/images/projects/symbol-match/IMG_1496.JPG "Brainstorming sketches for a workaround solution (don't ask me what any of this means)")
+
+Because we did not have any internet in our camp, the only way we could test our code was by connecting to the Neotropolis WiFi server. This meant bringing our laptops to the event space and testing code on floor 2 of the scaffolding. We occupied the ETA lounge to do our testing. 
+
+I'll never forget the moment of writing code in the desert with Cyonic and Dray. I watched the wind pass through the scaffolding, listened to the tarps flapping in the breeze, letting the rays of light peer through the gaps and glimmer off of the haze in the atmosphere. I looked over the mezzanine and saw hundreds of Kepler-609c residents adorned in their own original cyberpunk costuming, socializing with each other at bars and running amok through the city. It truly felt like I was in another universe. 
+
+Cyonic looked at me and said "I'm so sorry I'm asking you to write code instead of letting you enjoy the event." I replied with "Are you kidding? This is exactly what I was hoping to do!"
+
+![image](/images/projects/symbol-match/image.jpeg)
+
+Our testing was inconclusive. We were once again stopped in our tracks, and the FDNs, along with my Symbol Match code, were at risk of being pushed to next year.
+
+I decided to propose a potential plan B solution. If the FDNs had no way of connecting to the internet, then perhaps we could implement an "offline" alternative. I suggested coming up with a seven-word passphrase. Each word of the passphrase was locked behind one of the devices. Once an FDN was unlocked, it would reveal a word of the phrase, instruct the player to identify the rest of the words, and report the completed phrase to Sphynx (that's me) to reap the rewards. 
+
+Cyonic and Dray were all for it. I planned to start development on plan B the next day. 
+
+### Day 3
+
+The next morning, I implemented the code for each of the devices. Two of the FDNs were not cooperating, so we narrowed the phrase down to five words instead of seven.
+
+During implementation, I removed a line of code that re-locked the FDN upon PDN disconnection. I thought this was a really smart way to view all of the words on all FDNs at once and ensure they were all unique, purely for my own testing purposes. I made a mental note to add the code back before re-flashing and putting up the devices, which is hilarious because I completely forgot to do that. This meant that the secret word would openly display on the device as soon as ONE pair of players unlocked it. Disconnecting from the FDN did not re-conceal the word. My secrets were being leaked to the city! 
+
+The day consisted of me finding unlocked FDNs and cycling the power to re-lock them. The team and I got to laugh about this later. Obviously, this was unintentional device behavior (unless you happen to be one of the people who attended the event, then it was completely intentional). 
+
+Mishaps aside, it was really exciting to see the players interacting with the devices and figuring out how to use them. 
+
+Eventually, two of the FDNs became non-operational because of direct sunlight overheating the electronics. We came up with a method to display the secret word with an analog solution rather than a digital one (it involved writing the word on a piece of gaffer's tape and placing it directly on the screen). The other two were located in shady areas and worked perfectly.
+
+We soon discovered that one of the FDNs wasn't displaying anything since its screen became detached from the microcontroller. Cyonic attempted to re-wire it from memory with no luck. We resorted to re-wiring it when we got back to camp. Throughout the day, people began to approach me with incorrect / incomplete versions of the phrase. While it was exciting to see players begin to solve the puzzle, I was a little bit panicked knowing that one of the devices was still back at our camp. 
+
+![We literally tried fixing it in an alleyway (because we're alleycats after all)](/images/projects/symbol-match/IMG_0349.jpeg "We literally tried fixing it in an alleyway (because we're alleycats after all)")
+
+That evening, Cyonic re-wired the last FDN, using the codebase as a reference. We got it working again. 
+
+We assumed that at this point, most of the players who engaged with the FDNs knew four of the five words of the passphrase (in part thanks to my "trusty" development techniques). Luckily for us, the word protected by the broken device was the most crucial word in the phrase. Since it was an adjective, it was unlikely that anyone would guess it correctly. 
+
+Regardless, the players were close to solving the puzzle. We planned to hide the last device in a tough-to-find location. 
+
+### Day 4
+
+We woke up early the next morning to hide the final device before anyone could see us doing it. We settled on The Hab. This booth was located in the busiest sector of Neotropolis, and it looked like the garage of someone who was just as much of a technology enthusiast as they were a hoarder. We figured we could camouflage the FDN within the clutter. 
+
+To make things a bit trickier, we encouraged Jawa to mess with the players a bit and give them a hard time when trying to access the device. That way, we could ensure the final device would be more difficult to unlock than the others. That's the beauty of developing code for a LARP experience; some of your software problems can be fixed with improv. 
+
+All there was left to do was hold my breath and hope for the best. To my chagrin, a few hours later, three players approached me with the completed phrase. 
+
+![image (1)](/images/projects/symbol-match/image%20%281%29.jpeg)
+
+A few more players approached me later in the day with the completed phrase. I think 8 people completed the puzzle in total. 
+
+I was so relieved and elated that people had successfully solved the puzzle. The team and I had worked so hard to get some version, *ANY* version, of the FDNs out into the wild, and after three days of beating our heads against the wall, we finally did it. 
+
+The concoction of euphoria, pride, and relief is a feeling I'll never forget.
+
+## What I learned
+
+I will admit that many of our struggles during Neo 2226 could have been resolved with more regimented testing in advance. However, the desert is an unpredictable environment for  technology implementation. There are many design decisions we make in advance to ensure these devices work to the best of their ability (print material, design aesthetic, etc). However, there are *still* things that can go wrong.
+
+Participating in a LARP festival relies on your ability to improv. When you're bringing a fictional character to a fictional world, you must learn how to view reality through their eyes. Improv-ing as Sphynx was a new and enjoyable experience, but what I didn't expect was for my development work to be part of the improv as well. I feel combining improv and engineering in any other field is just as volatile as combining vinegar and baking soda. In a place like Neotropolis, however, it's crucial to work with both. 
+
+Reflecting on this experience reminds me of why I love doing engineering work for events. The problem-solving only accelerates once your work gets dispatched into the field. There is only so much work you can do in advance to *enable* your success, but success is never truly guaranteed in these places. That's where the work *during* the event comes in. When things break, you must be ready to fix it with shoe strings and bubblegum. When the world misaligns with your vision, you must be ready to shift gears and take a few detours. There's nothing more exciting to me than thinking on my toes like this, and it's a true pleasure to work with people who enjoy collaborating in this way. Neotropolis 2226 was a one-of-a-kind experience, and I can't wait to do it again next year. 
+
+
+![Posing with an FDN in the wild](/images/projects/symbol-match/IMG_0355.jpeg "Posing with an FDN in the wild")
+
+
