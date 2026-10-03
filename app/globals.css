@@ -47,31 +47,44 @@ body {
   to   { transform: translateX(-50%); }
 }
 
-/* Consecutive MDX images wrapped in <MediaRow> */
+/* Consecutive MDX images wrapped in <MediaRow>. Shared height, width follows aspect ratio.
+   A caption lives in a figure around the image. Size that figure to the photo so the
+   caption sits underneath it. A long caption must not widen the figure: the old
+   max-width: 50% then resolved against the caption and letterboxed the photo. */
 .article-body .mdx-media-row {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
+  align-items: flex-start;
+  gap: 0.75rem 1rem;
 }
 
-.article-body .mdx-media-row :is(img, video) {
-  /* Intrinsic size, height-capped — don't stretch into 50% columns */
+.article-body .mdx-media-row > :is(img, video) {
   margin: 0 !important;
   flex: 0 1 auto;
   width: auto !important;
-  max-width: min(100%, 20rem);
-  max-height: 20rem;
-  height: auto;
+  height: 16rem;
+  max-width: 100%;
+  max-height: 16rem;
   object-fit: contain;
 }
 
-@media (min-width: 768px) {
-  .article-body .mdx-media-row :is(img, video) {
-    max-width: min(48%, 18rem);
-    max-height: 22rem;
-  }
+.article-body .mdx-media-row > .mdx-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0;
+}
+
+.article-body .mdx-media-row > .mdx-figure :is(img, video) {
+  margin: 0 !important;
+  width: auto !important;
+  height: auto;
+  max-width: 100%;
+  max-height: 16rem;
+  object-fit: contain;
 }
 
 /* Caption from markdown image title: ![alt](src "caption") */
@@ -88,19 +101,34 @@ body {
   color: color-mix(in srgb, var(--foreground) 75%, transparent);
 }
 
-.article-body .mdx-media-row .mdx-figure,
-.article-body .mdx-gallery-thumb .mdx-figure {
-  margin: 0;
-  max-width: min(100%, 20rem);
+/* width: 0 + min-width: 100% wraps the caption to the image without
+   letting the text set the figure's width. */
+.article-body .mdx-media-row > .mdx-figure .mdx-caption,
+.article-body .mdx-gallery-thumb .mdx-caption {
+  width: 0;
+  min-width: 100%;
 }
 
-.article-body .mdx-gallery-thumb .mdx-caption {
-  line-height: 1.45;
+@media (min-width: 768px) {
+  .article-body .mdx-media-row > :is(img, video),
+  .article-body .mdx-media-row > .mdx-figure {
+    max-width: calc(50% - 0.5rem);
+  }
+
+  .article-body .mdx-media-row > :is(img, video),
+  .article-body .mdx-media-row > .mdx-figure :is(img, video) {
+    max-height: 22rem;
+  }
+
+  .article-body .mdx-media-row > :is(img, video) {
+    height: 22rem;
+  }
 }
 
 /* Horizontal-scroll gallery */
 .article-body .mdx-gallery {
   display: flex;
+  align-items: flex-start;
   gap: 0.75rem;
   overflow-x: auto;
   overscroll-behavior-x: contain;
@@ -135,23 +163,32 @@ body {
   border: none;
   background: transparent;
   cursor: zoom-in;
-  line-height: 0;
+  line-height: normal;
   scroll-snap-align: center;
+}
+
+.article-body .mdx-gallery-thumb .mdx-figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+  max-width: none;
+  margin: 0;
 }
 
 .article-body .mdx-gallery-thumb :is(img, video) {
   margin: 0 !important;
   width: auto !important;
-  max-width: 100%;
+  max-width: none;
+  height: 14rem;
   max-height: 14rem;
-  height: auto;
   object-fit: contain;
   pointer-events: none;
 }
 
 @media (min-width: 768px) {
   .article-body .mdx-gallery-thumb :is(img, video) {
-    max-width: none;
+    height: 22rem;
     max-height: 22rem;
   }
 }
@@ -166,9 +203,11 @@ body {
   inset: 0;
   z-index: 100;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  /* Reserve bottom band so the image never sits under fixed nav */
+  gap: 0.75rem;
+  /* Reserve bottom band so the image never sits under the lightbox controls */
   padding: 3rem 1.25rem 4.5rem;
   background: color-mix(in srgb, var(--foreground) 72%, transparent);
   cursor: zoom-out;
@@ -176,7 +215,7 @@ body {
 
 .mdx-lightbox-img {
   max-width: min(96vw, 72rem);
-  max-height: 100%;
+  max-height: calc(100vh - 12rem);
   width: auto;
   height: auto;
   object-fit: contain;
@@ -227,7 +266,7 @@ body {
 
 .mdx-lightbox-caption {
   max-width: min(36rem, 90vw);
-  margin: 0.75rem 0 0;
+  margin: 0;
   text-align: center;
   color: var(--background);
   font-size: 0.875rem;
