@@ -320,6 +320,48 @@ export function Gallery({ children }: { children: ReactNode }) {
   );
 }
 
+/** Instagram post embed. Pass the post URL; the captioned embed is loaded by Instagram's script. */
+export function Instagram({ url }: { url: string }) {
+  const permalink = `${url.trim().split("?")[0].replace(/\/$/, "")}/`;
+
+  useEffect(() => {
+    const process = () => {
+      const win = window as Window & {
+        instgrm?: { Embeds: { process: () => void } };
+      };
+      win.instgrm?.Embeds.process();
+    };
+
+    const existing = document.querySelector<HTMLScriptElement>(
+      'script[src="https://www.instagram.com/embed.js"]',
+    );
+    if (existing) {
+      process();
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = "https://www.instagram.com/embed.js";
+    script.async = true;
+    script.onload = process;
+    document.body.appendChild(script);
+  }, [permalink]);
+
+  return (
+    <div className="my-8 flex w-full justify-center">
+      <blockquote
+        className="instagram-media"
+        data-instgrm-permalink={permalink}
+        data-instgrm-version="14"
+        data-instgrm-captioned
+        style={{ maxWidth: "540px", width: "100%", margin: 0 }}
+      >
+        <a href={permalink}>View this post on Instagram</a>
+      </blockquote>
+    </div>
+  );
+}
+
 /** Explicit MDX component — raw <iframe> overrides are unreliable with MDXRemote. */
 export function YouTube({
   src,

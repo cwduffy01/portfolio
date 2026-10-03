@@ -1,5 +1,5 @@
 import { Children, isValidElement, type ComponentPropsWithoutRef } from "react";
-import { Gallery, MediaImg, MediaRow, YouTube } from "@/components/MdxMedia";
+import { Gallery, Instagram, MediaImg, MediaRow, YouTube } from "@/components/MdxMedia";
 
 /** Markdown wraps a lone image in <p>. A <figure> caption cannot live inside <p>. */
 function isMediaOnlyParagraph(children: ComponentPropsWithoutRef<"p">["children"]) {
@@ -54,5 +54,6 @@ export const mdxComponents = {
   img: MediaImg,
   MediaRow,
   Gallery,
+  Instagram,
   YouTube,
 };
