@@ -5,7 +5,7 @@ export default function Contact() {
     // Outer flex centers the box; text-left keeps the content left-justified inside it.
     <main className="flex flex-1 items-center justify-center px-6 py-8">
       <div className="max-w-2xl text-left">
-        <h1 className="font-title mb-3 text-4xl">
+        <h1 className="font-header mb-3 text-4xl">
           Here are the best ways to contact me, sorted from most responsive to
           least responsive:
         </h1>
