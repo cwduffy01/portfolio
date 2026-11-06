@@ -23,7 +23,6 @@ export default function Nav() {
                     <Link href="/">carbs</Link>
                 </div>
                 <div className="hidden md:flex text-4xl font-web-subtitle gap-8">
-                    <NavLink href="/about">about</NavLink>
                     <NavLink href="/portfolio">portfolio</NavLink>
                     <NavLink href="/contact">contact</NavLink>
                 </div>
@@ -44,7 +43,6 @@ export default function Nav() {
                     className="md:hidden inset-0 z-50"
                 >
                     <nav className="flex flex-col items-center gap-2 text-2xl pt-4">
-                        <NavLink href="/about">about</NavLink>
                         <NavLink href="/portfolio">portfolio</NavLink>
                         <NavLink href="/contact">contact</NavLink>
                     </nav>
