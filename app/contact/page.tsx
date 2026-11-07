@@ -29,6 +29,17 @@ export default function Contact() {
             </a>
           </li>
           <li className="leading-relaxed">
+            Instagram:{" "}
+            <a
+              href="https://www.instagram.com/carbs.py/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={linkClass}
+            >
+              @carbs.py
+            </a>
+          </li>
+          <li className="leading-relaxed">
             LinkedIn:{" "}
             <a
               href="https://www.linkedin.com/in/carsonduffy/"
